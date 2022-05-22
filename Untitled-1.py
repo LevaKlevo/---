@@ -10,6 +10,7 @@ window = display.set_mode((width,height))
 display.set_caption('DON`T SKIP LOG')
 background = transform.scale(image.load('forest.jpg'),(width,height))
 
+
 game = True
 finish = False
 
@@ -30,7 +31,30 @@ class GameSprite(sprite.Sprite):
     def update(self):
         window.blit(self.image,(self.rect.x, self.rect.y))
 
+class P1(GameSprite):
+    def walk(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 0:
+            self.rect.y -= self.player_speed
+        if keys[K_s] and self.rect.y < 600:
+            self.rect.y += self.player_speed
+        
+class P2(GameSprite):
+    def walk(self):
+        keys = key.get_pressed()
+        if keys[K_UP] and self.rect.y > 0:
+            self.rect.y -= self.player_speed
+        if keys[K_DOWN] and self.rect.y < 600:
+            self.rect.y += self.player_speed
+
+class B(GameSprite):
+    pass
+
+bobr_1 = P1('bobr.png', 1, 250, 10, 150, 100, 1)
+bobr_2 = P2('bobr_2.png', 900, 250, 10, 150, 100, 1)
+
 while game:
+    
     for e in event.get():
             if e.type == QUIT:
                 game = False
@@ -38,6 +62,12 @@ while game:
                 pass
     if finish != True:
         window.blit(background,(0,0))
+        bobr_1.update()
+        bobr_1.walk()
+        bobr_2.update()
+        bobr_2.walk()
+
+
 
     clock = time.Clock()
     FPS = 60
